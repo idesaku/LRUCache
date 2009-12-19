@@ -12,11 +12,17 @@ class LRU
   def put(k, v)
     raise ArgumentError if k == nil
 
+    if @queue.size >= @size
+      @cache.delete(@queue.shift)
+    end
+
     @cache[k] = v
     @queue << k
   end
 
   def get(k)
+    v = @queue.delete(k)
+    @queue << v
     @cache[k]
   end
 

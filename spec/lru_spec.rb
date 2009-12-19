@@ -68,6 +68,28 @@ describe LRU do
       @lru.put("b", "bbb")
       @lru.put("c", "ccc")
       @lru.put("d", "ddd")
+
+      @lru.get("a").should be_nil
+      @lru.get("b").should_not be_nil
+    end
+
+    it "は参照されたデータを最新登録にする" do
+      @lru.put("a", "aaa")
+      @lru.put("b", "bbb")
+      @lru.put("c", "ccc")
+      @lru.get("a")
+      @lru.first.should == "b"
+      @lru.order("a").should == 2
+    end
+    it "登録順が変わった後で最も古いデータを削除する" do
+      @lru.put("a", "aaa")
+      @lru.put("b", "bbb")
+      @lru.put("c", "ccc")
+      @lru.get("a")
+      @lru.put("d", "ddd")
+      @lru.get("b").should be_nil
+      @lru.get("a").should_not be_nil
+
     end
   end
 end
