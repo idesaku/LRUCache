@@ -33,4 +33,12 @@ class LRU
   def first
     @queue[0]
   end
+
+  def resize(new_size)
+    raise ArgumentError if new_size <= 0
+    (@size - new_size).times {
+      @cache.delete(@queue.shift)
+    }
+    @size = new_size
+  end
 end
